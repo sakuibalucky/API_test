@@ -1,0 +1,20 @@
+navigator.bluetooth.requestDevice(options) //デバイスのスキャンを開始
+  .then(device => {
+    console.log("デバイスを取得しました", device);    
+    return device.gatt.connect();
+  })
+  .then(server =>{
+    console.log("GATTサーバーに接続しました", server);
+    return server.getPrimaryService(LED_SERVICE_UUID);
+  })
+  .then(service => {
+    console.log("サービスを取得しました", service);
+    return service.getCharacteristic(LED_TEXT_CHARACTERISTIC_UUID);
+  })
+  .then(chara => {
+    console.log("キャラクタリスティックを取得しました", chara);
+    chara.writeValue(value);  //値を書き込む
+  })  
+  .catch(error => {
+    console.log(error);
+  });  
